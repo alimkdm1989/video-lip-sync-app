@@ -42,7 +42,7 @@ if st.button("🚀 إنشاء الفيديو", use_container_width=True):
                 st.info("📥 جاري محاولة تحميل الفيديو...")
                 ydl_opts = {
                     "format": "bestvideo+bestaudio/best",
-                    "merge_output_format": "mp4",   # اجبر الدمج إلى mp4
+                    "merge_output_format": "mp4",   # يحتاج ffmpeg
                     "outtmpl": "temp/video.%(ext)s",
                     "quiet": False,
                     "noplaylist": True,
@@ -73,6 +73,7 @@ if st.button("🚀 إنشاء الفيديو", use_container_width=True):
 st.markdown("---")
 st.info("""
 💡 **ملاحظات مهمة:**
+- يجب أن يكون ffmpeg مثبت (Streamlit Cloud: أضف ملف packages.txt يحتوي على 'ffmpeg')
 - استخدم فيديوهات عامة وقصيرة أولاً
 - تجنب الفيديوهات المقيدة بالسن أو المحمية
 - إذا استمر الخطأ، جرب فيديو آخر

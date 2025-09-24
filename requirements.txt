@@ -1,5 +1,6 @@
+yt-dlp>=2024.09.27
 streamlit
-yt-dlp
-yt-dlp==2024.09.27
+gTTS
+ffmpeg-python
 gTTS
 moviepy

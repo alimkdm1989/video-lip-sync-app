@@ -2,23 +2,30 @@ import streamlit as st
 import yt_dlp
 from gtts import gTTS
 import os
-import time
 
 st.title("🎯 تطبيق Lip-Sync من يوتيوب")
 st.markdown("---")
 
 with st.sidebar:
     st.header("⚙️ الإعدادات")
-    language = st.selectbox("🌍 اللغة", ["ar", "en"], 
-                           format_func=lambda x: "العربية" if x == "ar" else "الإنجليزية")
+    language = st.selectbox(
+        "🌍 اللغة", ["ar", "en"], 
+        format_func=lambda x: "العربية" if x == "ar" else "الإنجليزية"
+    )
 
-youtube_url = st.text_input("🔗 رابط الفيديو من يوتيوب", 
-                           placeholder="https://www.youtube.com/watch?v=...")
-text_input = st.text_area("📝 النص للتعليق الصوتي", 
-                         placeholder="اكتب النص هنا...", 
-                         height=100)
-avatar_file = st.file_uploader("🖼️ صورة الأفاتار", 
-                              type=['jpg', 'jpeg', 'png'])
+youtube_url = st.text_input(
+    "🔗 رابط الفيديو من يوتيوب", 
+    placeholder="https://www.youtube.com/watch?v=..."
+)
+text_input = st.text_area(
+    "📝 النص للتعليق الصوتي", 
+    placeholder="اكتب النص هنا...", 
+    height=100
+)
+avatar_file = st.file_uploader(
+    "🖼️ صورة الأفاتار", 
+    type=['jpg', 'jpeg', 'png']
+)
 
 if st.button("🚀 إنشاء الفيديو", use_container_width=True):
     if youtube_url and text_input and avatar_file:
@@ -34,8 +41,14 @@ if st.button("🚀 إنشاء الفيديو", use_container_width=True):
             try:
                 st.info("📥 جاري محاولة تحميل الفيديو...")
                 ydl_opts = {
-                    'format': 'best[height<=360]',
-                    'outtmpl': 'temp/video.mp4',
+                    "format": "bestvideo+bestaudio/best",
+                    "merge_output_format": "mp4",   # اجبر الدمج إلى mp4
+                    "outtmpl": "temp/video.%(ext)s",
+                    "quiet": False,
+                    "noplaylist": True,
+                    "http_headers": {
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+                    }
                 }
                 with yt_dlp.YoutubeDL(ydl_opts) as ydl:
                     ydl.download([youtube_url])
@@ -61,6 +74,6 @@ st.markdown("---")
 st.info("""
 💡 **ملاحظات مهمة:**
 - استخدم فيديوهات عامة وقصيرة أولاً
-- تجنب الفيديوهات المقيدة بالسن
+- تجنب الفيديوهات المقيدة بالسن أو المحمية
 - إذا استمر الخطأ، جرب فيديو آخر
 """)
